@@ -4,6 +4,8 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import { Link } from "react-router-dom";
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,8 +29,12 @@ export default function NavBar() {
           <Typography variant="h6" className={classes.title}>
             Google Books
           </Typography>
-          <Button color="inherit">Search</Button>
-          <Button color="inherit">Saved</Button>
+          <Link to={"/"} style={{textDecoration: "none"}}>
+            <Button style={{color: "white"}}>Search</Button>
+          </Link>
+          <Link to={"/saved"} style={{textDecoration: "none"}}>  
+            <Button color="inherit" style={{color: "white"}}>Saved</Button>
+          </Link>
         </Toolbar>
       </AppBar>
     </div>
