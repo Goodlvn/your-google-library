@@ -2,6 +2,7 @@ import React from "react";
 import Search from "./pages/Search/Search";
 import Saved from "./pages/Saved/Saved";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BookProvider } from "./utils/BookContext";
 import {
   ThemeProvider,
   createMuiTheme
@@ -18,10 +19,12 @@ function App() {
     <Router>
       <ThemeProvider theme={customTheme}>
         <div className="App">
-          <Switch>
-            <Route exact path="/" component={Search} />
-            <Route exact path="/saved" component={Saved} />
-          </Switch>
+          <BookProvider>
+            <Switch>
+              <Route exact path="/" component={Search} />
+              <Route exact path="/saved" component={Saved} />
+            </Switch>
+          </BookProvider>
         </div>
       </ThemeProvider>
     </Router>
