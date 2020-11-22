@@ -1,13 +1,5 @@
-import React, { useContext, useReducer } from "react";
-import {
-    SEARCH_RESULTS,
-    VIEW_BOOK,
-    LOADING,
-    SAVE_BOOK,
-    GET_SAVED_BOOKS,
-    DELETE_BOOK,
-    VIEW_DETAILS
-} from "./Actions";
+import React, { useContext, useReducer, createContext } from "react";
+import Actions from "./Actions";
 
 const initialState = {
     searchResult: [],
@@ -21,38 +13,44 @@ const initialState = {
     loading: false
 };
 
+const BookContext = createContext(initialState);
+
 function reducer(state, { type, payload }) {
     switch (type) {
-        case LOADING:
+        case Actions.LOADING:
             return {
                 ...state,
                 loading: true
             };
-        case SEARCH_RESULTS:
+        case Actions.SEARCH_RESULTS:
             return {
                 ...state,
                 searchResults: payload,
                 loading: false,
             };
-        case SAVE_BOOK:
+        case Actions.SAVE_BOOK:
             return {
                 ...state,
                 savedBooks: [...state.savedBooks, payload],
                 loading: false,
             };
-        case GET_SAVED_BOOKS:
+        case Actions.GET_SAVED_BOOKS:
             return {
                 ...state,
                 savedBooks: payload,
                 loading: false,
             };
-        case DELETE_BOOK:
+        case Actions.DELETE_BOOK:
+            const filteredBooks = state.savedBooks.filter((book) => {
+                return book.googleId !== payload;
+              });
+              
             return {
                 ...state,
                 savedBooks: filteredBooks,
                 loading: false,
             };
-        case VIEW_DETAILS:
+        case Actions.VIEW_DETAILS:
             return {
                 ...state,
                 bookDetails: payload,
@@ -62,7 +60,7 @@ function reducer(state, { type, payload }) {
     }
 }
 
-const BookContext = ({ ...props }) => {
+const BookProvider = ({ ...props }) => {
     const [state, dispatch] = useReducer(reducer, initialState);
 
     return <BookContext.Provider value={{ state, dispatch }} {...props} />;

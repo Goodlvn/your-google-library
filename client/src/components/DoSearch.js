@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
+import { TextField, Button, Grid } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -16,7 +16,25 @@ export default function DoSearch() {
 
   return (
     <form className={classes.root} noValidate autoComplete="off">
-      <TextField id="filled-basic" label="Book" variant="filled" />
+      <Grid container style={{margin: "0 auto"}}>
+        <Grid item xs={12}>
+          <TextField id="filled-basic" label="Book" variant="filled" />
+        </Grid>
+        <Grid item xs={12}>
+          <Button
+            style={{marginTop: "15px"}}
+            // disabled={title.trim().length === 0}
+            type="submit"
+            variant="contained"
+            className={classes.button}
+          >
+            Search
+          </Button>
+        </Grid>
+      </Grid>
     </form>
   );
 }
+
+
+
