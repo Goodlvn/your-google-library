@@ -26,13 +26,13 @@ export default function Banner() {
 
         <Paper elevation={3} className={classes.root}>
             <div className={classes.content}>
-                <Typography>
-                    <h1>Google Book Search</h1>
+                <Typography variant="h3">
+                    Google Book Search
                 </Typography>
-                <Typography>
-                    <h3>search for and save books of interest</h3>
+                <Typography variant="h5" style={{margin: 10}}>
+                    search for and save books of interest
                 </Typography>
-                <DoSearch/>
+                <DoSearch />
             </div>
         </Paper>
     );

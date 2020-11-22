@@ -25,9 +25,9 @@ export default function SavedBanner() {
 
         <Paper elevation={3} className={classes.root}>
             <div className={classes.content}>
-                <Typography>
-                    <h1>Your Own Google Library</h1>
-                </Typography>
+            <Typography variant="h3">
+                    Your Library 🎉
+            </Typography>
             </div>
         </Paper>
     );
