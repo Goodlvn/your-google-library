@@ -1,10 +1,11 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Paper, Typography } from '@material-ui/core';
+import { Paper, Typography, withTheme } from '@material-ui/core';
+import DoSearch from './DoSearch';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        height: "250px",
+        height: "350px",
         width: "75%",
         margin: "0 auto",
         marginTop: "50px",
@@ -31,6 +32,7 @@ export default function Banner() {
                 <Typography>
                     <h3>search for and save books of interest</h3>
                 </Typography>
+                <DoSearch/>
             </div>
         </Paper>
     );
