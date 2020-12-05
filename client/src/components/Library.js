@@ -30,9 +30,11 @@ export default function Library() {
 
         <Paper elevation={3} className={classes.root}>
             <div className={classes.content}>
-                <Typography>
-                    <h3 className={classes.label}>Saved Books</h3>
-                </Typography>
+                <h3 className={classes.label}>
+                    <Typography>
+                        Saved Books
+                    </Typography>
+                </h3>
             </div>
         </Paper>
     );
