@@ -2,14 +2,14 @@ import axios from "axios";
 
 export default {
     searchTitle: (title) => {
-        return axios.get("/google/?title" + title);
-    }, 
+        return axios.get("/google/?title=" + title);
+    },
     saveBook: (book) => {
         return axios.post("/api/books", book);
     },
     getBooks: () => {
-        return axois.get("/api/books");
-    }, 
+        return axios.get("/api/books");
+    },
     deleteBook: (bookId) => {
         return axios.delete("/api/books/" + bookId);
     }
