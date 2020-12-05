@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { TextField, Button, Grid } from '@material-ui/core';
 import { useBookContext } from '../utils/BookContext';
+import Actions from "../utils/Actions";
 import API from "../utils/API";
 
 const useStyles = makeStyles((theme) => ({
@@ -15,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function DoSearch() {
   const classes = useStyles();
-  const { dispatch } = useBookContext();
+  const { state, dispatch } = useBookContext();
   const [title, setTitle] = useState("");
 
   const handleChange = e => {
@@ -32,9 +33,8 @@ export default function DoSearch() {
         const { volumeInfo } = results;
         return volumeInfo;
       })
+      dispatch({ type: Actions.SEARCH_RESULTS, payload: bookResults });
     }
-
-    console.log(bookResults);
   }
 
   return (
