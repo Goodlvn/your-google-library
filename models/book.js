@@ -24,6 +24,10 @@ const bookSchema = new Schema({
         type: String,
         default: ""
     },
+    bigImage: {
+        type: String,
+        default: ""
+    },
     link: {
         type: String,
         defalut: "",
