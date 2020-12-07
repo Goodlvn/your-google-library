@@ -2,17 +2,23 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const bookSchema = new Schema({
+    bookID: {
+        type: String,
+        require: true
+    },
     title: {
         type: String,
-        reuire: true
+        require: true
     },
-    authors:[{
+    authors: [{
         type: String,
-        require: true 
+        default: "no author information availible",
+        require: true
     }],
     description: {
         type: String,
-        require: true 
+        default: "no description",
+        require: true
     },
     image: {
         type: String,
@@ -20,7 +26,7 @@ const bookSchema = new Schema({
     },
     link: {
         type: String,
-        defalut:"",
+        defalut: "",
         unique: true
     }
 })
