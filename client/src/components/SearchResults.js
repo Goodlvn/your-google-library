@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Paper, Typography, withTheme } from '@material-ui/core';
+import { Paper, Typography } from '@material-ui/core';
 import { useBookContext } from "../utils/BookContext";
 import BookDisplay from "./BookDisplay";
-import { lightGreen } from '@material-ui/core/colors';
 import API from "../utils/API";
 import Actions from "../utils/Actions";
 
@@ -34,7 +33,6 @@ export default function SearchResults() {
     const { state: { searchResults, savedBooks }, dispatch } = useBookContext();
     const classes = useStyles();
 
-
     useEffect(() => {
         loadSavedBooks();
     }, [])
@@ -43,8 +41,6 @@ export default function SearchResults() {
         const { data } = await API.getBooks();
         dispatch({ type: Actions.GET_SAVED_BOOKS, payload: data });
     }
-
-    console.log(savedBooks);
 
     const displayBookResults = searchResults && searchResults.map((book, index) => {
         //otherwise the split is defaulted into flase
@@ -60,6 +56,7 @@ export default function SearchResults() {
             key={index}
             bookID={book.bookID}
             image={book?.imageLinks?.smallThumbnail}
+            bigImage={book?.imageLinks?.thumbnail}
             title={book.title}
             authors={book.authors}
             description={book.description}
