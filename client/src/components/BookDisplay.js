@@ -5,6 +5,8 @@ import SavedButton from "./SavedButton";
 import API from "../utils/API";
 import { useBookContext } from "../utils/BookContext";
 import Actions from "../utils/Actions";
+import { Link } from "react-router-dom";
+import SearchResults from './SearchResults';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -32,9 +34,9 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function BookDisplay({ image, title, authors, description, link, bookID, split }) {
+export default function BookDisplay({ image, title, authors, description, link, bookID, split, bigImage }) {
     const classes = useStyles();
-    const { state, dispatch } = useBookContext();
+    const { state: { savedBooks, searchResults }, dispatch } = useBookContext();
 
     let authorsString;
 
@@ -55,7 +57,7 @@ export default function BookDisplay({ image, title, authors, description, link, 
                 authors,
                 description,
                 image,
-                link
+                link,
             }
 
             const { data } = await API.saveBook(addBook);
@@ -72,17 +74,44 @@ export default function BookDisplay({ image, title, authors, description, link, 
         }
     }
 
+    function passDetails(hook) {
+        const [data] = savedBooks.filter(book => hook === book.bookID)
+
+        if (!data) {
+            const [data] = searchResults.filter(book => hook === book.bookID);
+
+            let bookDetails = {
+                bookID: data.bookID,
+                title: data.title,
+                authors: data.authors,
+                description: data?.description,
+                image: data?.imageLinks?.smallThumbnail,
+                link: data.previewLink,
+            }
+
+            console.log();
+            dispatch({ type: Actions.VIEW_DETAILS, payload: bookDetails });
+        } else {
+            dispatch({ type: Actions.VIEW_DETAILS, payload: data });
+        }
+
+    };
+
     return (
 
         <Paper elevation={3} className={classes.root}>
             <SavedButton className={classes.saved} onClick={saveBook} split={split} />
             <div className={classes.content}>
-                {image ? <img style={{ minHeight: "198px", minWidth: "128px" }} src={image} alt="book cover" /> : <img src="https://via.placeholder.com/150" alt="book cover" />}
+                <Link to={"/book"} style={{ textDecoration: "none" }} onClick={() => passDetails(bookID)}>
+                    {image ? <img style={{ minHeight: "198px", minWidth: "128px" }} src={image} alt="book cover" /> : <img src="https://via.placeholder.com/150" alt="book cover" />}
+                </Link>
                 <div style={{ marginLeft: "15px" }}>
                     <div style={{ display: "flex", alignItems: "center", flexWrap: "wrap" }}>
-                        <Typography variant="h5" component="h2">
-                            {title}
-                        </Typography>
+                        <Link to={"/book"} style={{ textDecoration: "none", color: "inherit" }} onClick={() => passDetails(bookID)}>
+                            <Typography variant="h5" component="h2">
+                                {title}
+                            </Typography>
+                        </Link>
                         <Typography variant="h5" component="h2" style={{ marginLeft: "15px", marginRight: "15px" }} >
                             •
                          </Typography>
@@ -90,8 +119,6 @@ export default function BookDisplay({ image, title, authors, description, link, 
                             {authorsString === undefined ? "No Author Information is available" : authorsString}
                         </Typography>
                     </div>
-
-
                     <Typography>
                         {description ? description.slice(0, 250).concat('...') : "no description available"}
                     </Typography>
