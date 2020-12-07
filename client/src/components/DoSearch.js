@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function DoSearch() {
   const classes = useStyles();
-  const { state, dispatch } = useBookContext();
+  const { dispatch } = useBookContext();
   const [title, setTitle] = useState("");
 
   const handleChange = e => {
@@ -28,10 +28,13 @@ export default function DoSearch() {
     e.preventDefault();
     const { data } = await API.searchTitle(title);
     let bookResults;
+
     if (data) {
       bookResults = data.map(results => {
+        let obj = { bookID: results.id }
         const { volumeInfo } = results;
-        return volumeInfo;
+        obj = { ...obj, ...volumeInfo }
+        return obj;
       })
       dispatch({ type: Actions.SEARCH_RESULTS, payload: bookResults });
     }
@@ -46,7 +49,7 @@ export default function DoSearch() {
         <Grid item xs={12}>
           <Button
             style={{ marginTop: "15px" }}
-            // disabled={title.trim().length === 0}
+            disabled={title.trim().length === 0}
             type="submit"
             variant="contained"
             className={classes.button}
