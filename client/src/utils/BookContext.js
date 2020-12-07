@@ -3,13 +3,7 @@ import Actions from "./Actions";
 
 const initialState = {
     searchResult: [],
-    savedBooks: {
-        title: "",
-        authors: [],
-        description: "",
-        image: "",
-        link: "",
-    },
+    savedBooks: [],
     loading: false
 };
 
@@ -43,8 +37,8 @@ function reducer(state, { type, payload }) {
         case Actions.DELETE_BOOK:
             const filteredBooks = state.savedBooks.filter((book) => {
                 return book.googleId !== payload;
-              });
-              
+            });
+
             return {
                 ...state,
                 savedBooks: filteredBooks,
