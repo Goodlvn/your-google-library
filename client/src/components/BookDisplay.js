@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function BookDisplay({ image, title, authors, description, link, bookID, split }) {
     const classes = useStyles();
-    const { dispatch } = useBookContext();
+    const { state, dispatch } = useBookContext();
 
     let authorsString;
 
@@ -48,19 +48,27 @@ export default function BookDisplay({ image, title, authors, description, link, 
 
     async function saveBook(e) {
 
-        let addBook = {
-            bookID,
-            title,
-            authors,
-            description,
-            image,
-            link
-        }
+        if (!split) {
+            let addBook = {
+                bookID,
+                title,
+                authors,
+                description,
+                image,
+                link
+            }
 
-        const { data } = await API.saveBook(addBook);
+            const { data } = await API.saveBook(addBook);
 
-        if (data) {
-            dispatch({ type: Actions.SAVE_BOOK, payload: data })
+            if (data) {
+                dispatch({ type: Actions.SAVE_BOOK, payload: data })
+            }
+        } else {
+            const { data } = await API.deleteBook(bookID);
+
+            if (data) {
+                dispatch({ type: Actions.DELETE_BOOK, payload: bookID })
+            }
         }
     }
 
