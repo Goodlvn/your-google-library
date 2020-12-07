@@ -4,6 +4,7 @@ import Actions from "./Actions";
 const initialState = {
     searchResult: [],
     savedBooks: [],
+    bookDetails: {},
     loading: false
 };
 
