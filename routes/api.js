@@ -23,7 +23,7 @@ router.post("/books", async (req, res) => {
 router.delete("/books/:id", async (req, res) => {
     try {
         const bookId = req.params.id;
-        const deletedBook = await Book.deleteOne({ googleId: bookId });
+        const deletedBook = await Book.deleteOne({ bookID: bookId });
         res.json(deletedBook)
     } catch (err) {
         res.status(422).json(err);

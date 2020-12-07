@@ -36,7 +36,7 @@ function reducer(state, { type, payload }) {
             };
         case Actions.DELETE_BOOK:
             const filteredBooks = state.savedBooks.filter((book) => {
-                return book.googleId !== payload;
+                return book.bookID !== payload;
             });
 
             return {
