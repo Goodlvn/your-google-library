@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Paper, Typography, withTheme } from '@material-ui/core';
 import { useBookContext } from "../utils/BookContext";
 import BookDisplay from "./BookDisplay";
+import { lightGreen } from '@material-ui/core/colors';
+import API from "../utils/API";
+import Actions from "../utils/Actions";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -28,17 +31,40 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SearchResults() {
-    const { state: { searchResults } } = useBookContext();
+    const { state: { searchResults, savedBooks }, dispatch } = useBookContext();
     const classes = useStyles();
 
-    console.log(searchResults);
+
+    useEffect(() => {
+        loadSavedBooks();
+    }, [])
+
+    async function loadSavedBooks() {
+        const { data } = await API.getBooks();
+        dispatch({ type: Actions.GET_SAVED_BOOKS, payload: data });
+    }
+
+    console.log(savedBooks);
 
     const displayBookResults = searchResults && searchResults.map((book, index) => {
+        //otherwise the split is defaulted into flase
+        let split = false;
+        //if the book id matches the a book with the same ID in state then we have to change the split to true
+        savedBooks.forEach(savedBook => {
+            if (savedBook.bookID === book.bookID) {
+                split = true;
+            }
+        })
+
         return <BookDisplay
             key={index}
+            bookID={book.bookID}
             image={book?.imageLinks?.smallThumbnail}
             title={book.title}
+            authors={book.authors}
             description={book.description}
+            link={book.previewLink}
+            split={split}
         />
     })
 
