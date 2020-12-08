@@ -46,7 +46,6 @@ export default function Library() {
         //otherwise the split is defaulted into flase
         let split = false;
         //if the book id matches the a book with the same ID in state then we have to change the split to true
-
         savedBooks.forEach(savedBook => {
             if (savedBook.bookID === book.bookID) {
                 split = true;
@@ -60,7 +59,7 @@ export default function Library() {
             title={book.title}
             authors={book.authors}
             description={book.description}
-            link={book.previewLink}
+            link={book.link}
             split={split}
         />
     })
