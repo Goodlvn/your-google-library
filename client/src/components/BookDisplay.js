@@ -2,11 +2,12 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Paper, Typography, withTheme } from '@material-ui/core';
 import SavedButton from "./SavedButton";
+import BuyButton from "./BuyButton";
 import API from "../utils/API";
 import { useBookContext } from "../utils/BookContext";
 import Actions from "../utils/Actions";
 import { Link } from "react-router-dom";
-import SearchResults from './SearchResults';
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -29,8 +30,9 @@ const useStyles = makeStyles((theme) => ({
         paddingTop: "15px",
         paddingLeft: "15px",
     },
-    saved: {
-        float: "right"
+    button: {
+        float: "right",
+        marginLeft: 8
     }
 }));
 
@@ -87,12 +89,13 @@ export default function BookDisplay({ image, title, authors, description, link, 
                 description: data?.description,
                 image: data?.imageLinks?.smallThumbnail,
                 link: data.previewLink,
+                split: split
             }
 
             console.log();
             dispatch({ type: Actions.VIEW_DETAILS, payload: bookDetails });
         } else {
-            dispatch({ type: Actions.VIEW_DETAILS, payload: data });
+            dispatch({ type: Actions.VIEW_DETAILS, payload: { ...data, split: split } });
         }
 
     };
@@ -100,7 +103,10 @@ export default function BookDisplay({ image, title, authors, description, link, 
     return (
 
         <Paper elevation={3} className={classes.root}>
-            <SavedButton className={classes.saved} onClick={saveBook} split={split} />
+            <SavedButton className={classes.button} onClick={saveBook} split={split} />
+            <a href={link} target="_blank">
+                <BuyButton className={classes.button} />
+            </a>
             <div className={classes.content}>
                 <Link to={"/book"} style={{ textDecoration: "none" }} onClick={() => passDetails(bookID)}>
                     {image ? <img style={{ minHeight: "198px", minWidth: "128px" }} src={image} alt="book cover" /> : <img src="https://via.placeholder.com/150" alt="book cover" />}
